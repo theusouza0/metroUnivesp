@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+    {% load static %}
+    <link href="{% static "styles/index.css" %}" rel="stylesheet">
     <title>Main Screen</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#fetch-html-btn').click(function() {
+                var $btn = $(this);
+                $btn.prop('disabled', true); // Disable the button to prevent multiple clicks
+                $('#loading-indicator').show(); // Show the loading indicator
+
                 $.ajax({
                     url: "{% url 'fetch_html' %}",
                     method: "GET",
@@ -15,10 +21,16 @@
                     },
                     success: function(data) {
                         $('#content-area').html(data);
+                        $('#error-message').hide();
                     },
                     error: function(xhr, status, error) {
                         console.error("AJAX request failed: " + status + ", " + error);
                         $('#content-area').html("Failed to fetch content");
+                        $('#error-message').show().text("Failed to fetch content. Please try again later.");
+                    },
+                    complete: function() {
+                        $btn.prop('disabled', false); // Re-enable the button
+                        $('#loading-indicator').hide(); // Hide the loading indicator
                     }
                 });
             });
@@ -26,16 +38,22 @@
     </script>
 </head>
 <body>
-    <h1>Main Screen</h1>
-    <button id="fetch-html-btn">Fetch HTML</button>
-    <button>Button 2</button>
-    <button>Button 3</button>
-    <button>Button 4</button>
-    <button>Button 5</button>
-    <button>Button 6</button>
-    
-    <div id="content-area">
+    <div class="container">
+        <h1>Main Screen</h1>
+        <header class="header">
+            <button class="header-button" id="fetch-html-btn">Fetch HTML</button>
+            <button class="header-button">Button 2</button>
+            <button class="header-button">Button 3</button>
+            <button class="header-button">Button 4</button>
+            <button class="header-button">Button 5</button>
+            <button class="header-button">Button 6</button>
+        </header>
+ 
+        <div id="loading-indicator">Loading...</div>
+        <div id="error-message"></div>
+        <div id="content-area">
         <!-- Content from partial views will be injected here -->
+        </div>
     </div>
 </body>
 </html>

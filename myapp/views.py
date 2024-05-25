@@ -4,6 +4,8 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
+from django.templatetags.static import static
+from django.contrib.staticfiles.finders import find
 
 def index(request):
     return render(request, 'myapp/index.html')
@@ -14,7 +16,7 @@ def fetch_html(request):
     chrome_options.add_argument('--headless')  # Run Chrome in headless mode (no GUI)
 
     # Set up Chrome WebDriver
-    chrome_driver_path = 'C:/Users/Eduardo Andretta/metroservice/chrome/chromedriver-win64/chromedriver.exe'  # Update with the path to your ChromeDriver
+    chrome_driver_path = find('chromedriver-win64\chromedriver.exe')  # Update with the path to your ChromeDriver 
     service = Service(chrome_driver_path)
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
@@ -26,7 +28,7 @@ def fetch_html(request):
         driver.get(url)
 
         # Wait for 10 seconds (you can adjust the wait time as needed)
-        driver.implicitly_wait(10)
+        driver.implicitly_wait(5)
 
         # Get the HTML content
         html_content = driver.page_source

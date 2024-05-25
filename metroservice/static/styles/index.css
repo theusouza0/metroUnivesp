@@ -1,0 +1,25 @@
+*{
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+}
+#loading-indicator {
+    display: none;
+    color: blue;
+}
+#error-message {
+    color: red;
+}
+
+
+.container{
+    padding: 2rem 0;
+}
+.header{
+    width: 100%;
+    display: flex;
+}
+.header .header-button{
+    justify-content: space-between;
+    align-content: center;   
+}
