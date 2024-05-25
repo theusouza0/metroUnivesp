@@ -1,10 +1,12 @@
 {% for card in cards %}
 <div class="card mb-3">
     <div class="card-header">{{ card.header }}</div>
+    <hr class="card-divisor">
     <div class="card-body">
         <h5 class="card-title">{{ card.title }}</h5>
         <p class="card-text">{{ card.text }}</p>
-        <p class="card-text"><small>{{ card.date }}</small></p>
+        <p class="card-text"><small>Data Ocorrência:    {{ card.data_ocorrencia }}</small></p>
+        <p class="card-text"><small>Última Autalização: {{ card.ultima_atualizacao }}</small></p>
     </div>
 </div>
 {% endfor %}

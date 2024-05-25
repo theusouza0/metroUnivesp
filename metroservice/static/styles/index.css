@@ -1,5 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
 
+:root {
+    --pallete-color-1: #035AA6;
+    --pallete-color-2: #0367A6;
+    --pallete-color-3: #5095BF;
+    --pallete-color-4: #A9C6D9;
+    --pallete-color-5: #F2F2F2;
+
+    --font-family-1: "Lexend", sans-serif;
+}
+
 *{
     text-decoration: none;
     margin: 0;
@@ -13,64 +23,83 @@
     color: red;
 }
 
-
 html{
-    font-family: "Lexend", sans-serif;
+    font-family: var(--font-family-1)
 }
+
 body{
-    background-color: #035AA6;
+    background-color: var(--pallete-color-2)
 }
+
 h1{
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-
 .container{
-    padding: 2rem 0;
+    padding: 2rem 1rem;
 }
-.header{
+.header {
     width: 100%;
     display: flex;
-}
-.header .header-button{
     justify-content: space-between;
     align-content: center;   
 }
+
+header .header-title {
+    margin: 0 0 1rem 0; 
+}
+
+
+header .header .header-button {
+    border: none;
+    background-color: var(--pallete-color-2);
+    font-family: var(--font-family-1)
+}
+
+header .header .header-button:hover {
+    color:  var(--pallete-color-5);
+}
+
+header .header .header-button:active {
+    color:  var(--pallete-color-5);
+}
+
+/* [Card] */
+
+.card {
+    border-radius: 10px;
+    background-color: #A9C6D9;
+    margin: 1rem 5% 1rem 5%;
+    padding: 0 0 .5rem 0;
+}
+
 .card-header{
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #A9C6D9;
-    margin: 5px 10% 0px 10%;
-    
-    border-style: solid;
-    border-width: 3px;
-    border-color: black;
 
     font-weight: bold;
     font-size: 16px;
+    padding: .5rem 0 .5rem 0;
+
 }
+
 .card-title{
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #A9C6D9;
-    margin: 0px 10% 0px 10%;
-    
-    border-style: solid;
-    border-width: 0px 3px 0px 3px;
-    border-color: black;
+
 }
+
 .card-text{
+    margin: .3rem 0 .3rem 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #A9C6D9;
-    margin: 0px 10% 0px 10%;
-    
-    border-style: solid;
-    border-width: 0px 3px 3px 3px;
-    border-color: black;
+}
+
+.card-divisor {
+    height: 1px;
 }

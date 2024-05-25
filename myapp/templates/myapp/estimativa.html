@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Train Estimation</title>
+    <script>
+        const lines = {{ lines|safe }};
+        function updateStations() {
+            const lineSelect = document.getElementById('id_line');
+            const stationSelect = document.getElementById('id_station');
+            const selectedLine = lineSelect.value;
+
+            stationSelect.innerHTML = '';
+            if (lines[selectedLine]) {
+                for (const station of lines[selectedLine]) {
+                    const option = document.createElement('option');
+                    option.value = station;
+                    option.text = station;
+                    stationSelect.add(option);
+                }
+            }
+        }
+        window.addEventListener('DOMContentLoaded', (event) => {
+            updateStations();
+        });
+    </script>
+</head>
+<body>
+    <h1>Select Line and Station</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <br><br>
+        <button type="submit">Get Estimation</button>
+    </form>
+
+    {% if line and station and time %}
+    <h2>Estimated Time</h2>
+    <p>Line: {{ line }}</p>
+    <p>Station: {{ station }}</p>
+    <p>Estimated Time: {{ time }} minutes</p>
+    {% endif %}
+</body>
+</html>
