@@ -25,8 +25,8 @@
                     },
                     error: function(xhr, status, error) {
                         console.error("AJAX request failed: " + status + ", " + error);
-                        $('#content-area').html("Failed to fetch content");
-                        $('#error-message').show().text("Failed to fetch content. Please try again later.");
+                        $('#content-area').html("Não foi possível obter os dados.");
+                        $('#error-message').show().text("Não foi possível obter os dados. Tente novamente!");
                     },
                     complete: function() {
                         $btn.prop('disabled', false); // Re-enable the button
@@ -39,17 +39,17 @@
 </head>
 <body>
     <div class="container">
-        <h1>Main Screen</h1>
+        <h1>Acompanhamento das Linhas de Metrô em São Paulo</h1>
         <header class="header">
-            <button class="header-button" id="fetch-html-btn">Fetch HTML</button>
-            <button class="header-button">Button 2</button>
+            <button class="header-button" id="fetch-html-btn">Carregar Dados das linhas</button>
+            <button class="header-button">Está chovendo?</button>
             <button class="header-button">Button 3</button>
             <button class="header-button">Button 4</button>
             <button class="header-button">Button 5</button>
             <button class="header-button">Button 6</button>
         </header>
  
-        <div id="loading-indicator">Loading...</div>
+        <div id="loading-indicator">Carregando sua requisição...</div>
         <div id="error-message"></div>
         <div id="content-area">
         <!-- Content from partial views will be injected here -->

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+
 *{
     text-decoration: none;
     margin: 0;
@@ -5,10 +7,23 @@
 }
 #loading-indicator {
     display: none;
-    color: blue;
+    color: black;
 }
 #error-message {
     color: red;
+}
+
+
+html{
+    font-family: "Lexend", sans-serif;
+}
+body{
+    background-color: #035AA6;
+}
+h1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 
@@ -22,4 +37,40 @@
 .header .header-button{
     justify-content: space-between;
     align-content: center;   
+}
+.card-header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #A9C6D9;
+    margin: 5px 10% 0px 10%;
+    
+    border-style: solid;
+    border-width: 3px;
+    border-color: black;
+
+    font-weight: bold;
+    font-size: 16px;
+}
+.card-title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #A9C6D9;
+    margin: 0px 10% 0px 10%;
+    
+    border-style: solid;
+    border-width: 0px 3px 0px 3px;
+    border-color: black;
+}
+.card-text{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #A9C6D9;
+    margin: 0px 10% 0px 10%;
+    
+    border-style: solid;
+    border-width: 0px 3px 3px 3px;
+    border-color: black;
 }
