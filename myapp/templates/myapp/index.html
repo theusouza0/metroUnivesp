@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Main Screen</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#fetch-html-btn').click(function() {
+                $.ajax({
+                    url: "{% url 'fetch_html' %}",
+                    method: "GET",
+                    dataType: "html",
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    success: function(data) {
+                        $('#content-area').html(data);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX request failed: " + status + ", " + error);
+                        $('#content-area').html("Failed to fetch content");
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Main Screen</h1>
+    <button id="fetch-html-btn">Fetch HTML</button>
+    <button>Button 2</button>
+    <button>Button 3</button>
+    <button>Button 4</button>
+    <button>Button 5</button>
+    <button>Button 6</button>
+    
+    <div id="content-area">
+        <!-- Content from partial views will be injected here -->
+    </div>
+</body>
+</html>
