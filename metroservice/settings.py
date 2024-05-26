@@ -21,10 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-)42g2h1&&8@46yuafav^7=pl*0rd&rkvjy2sxr&mh#ig*v=z5q'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -130,3 +127,18 @@ STATICFILES_DIRS = (
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# DEPLOY
+
+SECURE_HSTS_SECONDS = 31536000
+SECURE_SSL_REDIRECT = False
+SECRET_KEY = 'django-insecure-)42g2h1&&8@46yuafav^7=pl*0rd&rkvjy2sxr&mh#ig*v=z5q'
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+ALLOWED_HOSTS = []
+SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+SECURE_HSTS_PRELOAD = False
+DEBUG = False
+
+STATIC_ROOT = 'C:\\Users\\Eduardo Andretta\\Desktop\\AIRDAFDESFWEF'
