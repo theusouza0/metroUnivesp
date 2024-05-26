@@ -30,12 +30,12 @@
                         $("#estimation_result").html('<p>Error: ' + response.error + '</p>');
                     } else {
                         $("#estimation_result").html(
-                            '<h2>Estimated Time</h2>' +
+                            '<h2>Tempo Estimado</h2>' +
                             '<table>' +
-                            '<tr><td>Line:</td><td>' + response.line + '</td></tr>' +
-                            '<tr><td>Start Station:</td><td>' + response.start_station + '</td></tr>' +
-                            '<tr><td>End Station:</td><td>' + response.end_station + '</td></tr>' +
-                            '<tr><td>Estimated Time:</td><td>' + response.time + ' minutes</td></tr>' +
+                            '<tr><td>Linha:</td><td>' + response.line + '</td></tr>' +
+                            '<tr><td>Origem:</td><td>' + response.start_station + '</td></tr>' +
+                            '<tr><td>Destino:</td><td>' + response.end_station + '</td></tr>' +
+                            '<tr><td>Tempo:</td><td>' + response.time + ' minutes</td></tr>' +
                             '</table>'
                         );
                     }
@@ -103,7 +103,7 @@
                 </select>
             </div>
             <br><br>
-            <button id="submit_button" type="submit">Get Estimation</button>   
+            <button id="submit_button" type="submit">Obter Estimativa</button>   
          </form>
     
         <!-- Placeholder for the estimation result -->
