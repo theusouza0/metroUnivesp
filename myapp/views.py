@@ -97,6 +97,7 @@ class EstimativaForm(forms.Form):
     def __init__(self, *args, **kwargs):
         line_stations = kwargs.pop('line_stations', {})
         super(EstimativaForm, self).__init__(*args, **kwargs)
+        
         if 'line' in self.data:
             self.fields['station'].choices = [(station, station) for station in line_stations.get(self.data['line'], [])]
 
@@ -202,10 +203,11 @@ def estimativa_html(request):
                 'station': station_selected,
                 'time': estimated_time,
                 'form': form,
+                'lines': lines,  # Pass the lines dictionary to the template
             }
-            return render(request, 'estimativa.html', context)
+            return render(request, 'myapp/estimativa_html.html', context)
 
     else:
         form = EstimativaForm(line_stations=lines)
 
-    return render(request, 'estimativa.html', {'form': form, 'lines': lines})
+    return render(request, 'myapp/estimativa_html.html', {'form': form, 'lines': lines})

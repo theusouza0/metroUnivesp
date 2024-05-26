@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Estimativa de Trem</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const lines = JSON.parse('{{ lines|escapejs }}');
+            console.log(lines);
+            const lineSelect = document.getElementById('id_line');
+            const stationSelect = document.getElementById('id_station');
+
+            function updateStations() {
+                const selectedLine = lineSelect.value;
+                stationSelect.innerHTML = '';
+                if (lines[selectedLine]) {
+                    for (const station of lines[selectedLine]) {
+                        const option = document.createElement('option');
+                        option.value = station;
+                        option.text = station;
+                        stationSelect.add(option);
+                    }
+                }
+            }
+
+            lineSelect.addEventListener('change', updateStations);
+            updateStations(); // Call once to populate the stations on page load
+        });
+    </script>
+</head>
+<body>
+    <h1>Selecione a Linha e sua estação</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <br><br>
+        <button type="submit">Obter Estimativa</button>
+    </form>
+
+    {% if line and station and time %}
+    <h2>Tempo </h2>
+    <p>Linha: {{ line }}</p>
+    <p>Estação: {{ station }}</p>
+    <p>Tempo Estimado: {{ time }} minutos</p>
+    {% endif %}
+</body>
+</html>
