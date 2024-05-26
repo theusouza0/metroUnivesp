@@ -6,63 +6,84 @@
     <title>Buscando o Trem</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#fetch-html-btn').click(function() {
-                var $btn = $(this);
-                $btn.prop('disabled', true); // Disable the button to prevent multiple clicks
-                $('#loading-indicator').show(); // Show the loading indicator
 
-                $.ajax({
-                    url: "{% url 'fetch_html' %}",
-                    method: "GET",
-                    dataType: "html",
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    success: function(data) {
-                        $('#content-area').html(data);
-                        $('#error-message').hide();
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("AJAX request failed: " + status + ", " + error);
-                        $('#content-area').html("Não foi possível obter os dados.");
-                        $('#error-message').show().text("Não foi possível obter os dados. Tente novamente!");
-                    },
-                    complete: function() {
-                        $btn.prop('disabled', false); // Re-enable the button
-                        $('#loading-indicator').hide(); // Hide the loading indicator
+    $(document).ready(function() {
+        var isEstimativaActive = false; // Flag to track if 'Está chovendo?' button is active
+
+        $('#fetch-html-btn').click(function() {
+            var $btn = $(this);
+            $btn.prop('disabled', true); // Disable the button to prevent multiple clicks
+            $('#estimativa-html-btn').prop('disabled', true); // Disable the other button
+            $('#loading-indicator').show(); // Show the loading indicator
+
+            $.ajax({
+                url: "{% url 'fetch_html' %}",
+                method: "GET",
+                dataType: "html",
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                success: function(data) {
+                    $('#content-area').html(data);
+                    $('#error-message').hide();
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX request failed: " + status + ", " + error);
+                    $('#content-area').html("Não foi possível obter os dados.");
+                    $('#error-message').show().text("Não foi possível obter os dados. Tente novamente!");
+                },
+                complete: function() {
+                    $btn.prop('disabled', false); // Re-enable the button
+                    if (!isEstimativaActive) {
+                        $('#estimativa-html-btn').prop('disabled', false); // Re-enable the other button if 'Está chovendo?' button is not active
                     }
-                });
-            });
-
-            $('#estimativa-html-btn').click(function() {
-                var $btn = $(this);
-                $btn.prop('disabled', true); // Disable the button to prevent multiple clicks
-                $('#loading-indicator').show(); // Show the loading indicator
-
-                $.ajax({
-                    url: "{% url 'estimativa_html' %}",
-                    method: "GET",
-                    dataType: "html",
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    success: function(data) {
-                        $('#content-area').html(data);
-                        $('#error-message').hide();
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("AJAX request failed: " + status + ", " + error);
-                        $('#content-area').html("Não foi possível obter os dados.");
-                        $('#error-message').show().text("Não foi possível obter os dados. Tente novamente!");
-                    },
-                    complete: function() {
-                        $btn.prop('disabled', false); // Re-enable the button
-                        $('#loading-indicator').hide(); // Hide the loading indicator
-                    }
-                });
+                    $('#loading-indicator').hide(); // Hide the loading indicator
+                }
             });
         });
+
+        $('#estimativa-html-btn').click(function() {
+            var $btn = $(this);
+            $btn.prop('disabled', true); // Disable the button to prevent multiple clicks
+            $('#fetch-html-btn').prop('disabled', true); // Disable the other button
+            $('#loading-indicator').show(); // Show the loading indicator
+
+            if (isEstimativaActive) {
+                // If 'Está chovendo?' button is active, clear content area and re-enable all buttons
+                $('#content-area').html("");
+                $('#fetch-html-btn, #estimativa-html-btn').prop('disabled', false); // Re-enable all buttons
+                isEstimativaActive = false; // Reset the flag
+                $('#loading-indicator').hide(); // Hide the loading indicator
+                return;
+            }
+
+            $.ajax({
+                url: "{% url 'estimativa_html' %}",
+                method: "GET",
+                dataType: "html",
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                success: function(data) {
+                    $('#content-area').html(data);
+                    $('#error-message').hide();
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX request failed: " + status + ", " + error);
+                    $('#content-area').html("Não foi possível obter os dados.");
+                    $('#error-message').show().text("Não foi possível obter os dados. Tente novamente!");
+                },
+                complete: function() {
+                    $btn.prop('disabled', false); // Re-enable the button
+                    $('#fetch-html-btn').prop('disabled', true); // Disable the other button
+                    $('#loading-indicator').hide(); // Hide the loading indicator
+                }
+            });
+
+            isEstimativaActive = true; // Set the flag to true after first click
+        });
+    });
+    
     </script>
 </head>
 <body>
@@ -72,17 +93,13 @@
             <div class="header">
                 <button class="header-button" id="fetch-html-btn">Carregar Dados das linhas</button>
                 <button class="header-button" id="estimativa-html-btn">Está chovendo?</button>
-                <button class="header-button">Button 3</button>
-                <button class="header-button">Button 4</button>
-                <button class="header-button">Button 5</button>
-                <button class="header-button">Button 6</button>
             </div>
         </header>
  
         <div id="loading-indicator">Carregando sua requisição...</div>
         <div id="error-message"></div>
-        <div id="content-area">
-        <!-- Content from partial views will be injected here -->
+        <div class="content" id="content-area">
+
         </div>
     </div>
 </body>

@@ -1,0 +1,51 @@
+:root {
+    --pallete-color-1: #035AA6;
+    --pallete-color-2: #0367A6;
+    --pallete-color-3: #5095BF;
+    --pallete-color-4: #A9C6D9;
+    --pallete-color-5: #F2F2F2;
+
+    --font-family-1: "Lexend", sans-serif;
+
+    --select-border: #777;
+    --select-focus: blue;
+    --select-arrow: var(--select-border);
+}
+
+.estimativa {
+    margin-top: 1.5rem;
+}
+
+.line-combo {
+    display: flex;
+    gap: 7px;
+    flex-direction: column;
+}
+
+.start-station-combo {
+    display: flex;
+    gap: 7px;
+    flex-direction: column;
+}
+
+.end-station-combo {
+    display: flex;
+    gap: 7px;
+    flex-direction: column;
+}
+
+
+
+  /* <select> styles */
+
+ select {
+    width: 100%;
+    border: 1px solid var(--select-border);
+    border-radius: 0.25em;
+    padding: 0.25em 0.5em;
+    font-size: 15px;
+    cursor: pointer;
+    line-height: 1.1;
+    background-color: #fff;
+    background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
+  }

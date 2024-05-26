@@ -1,47 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
-    <title>Estimativa de Trem</title>
+    <title>Train Estimation</title>
+    <link href="{% static "styles/estimativa_html.css" %}" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const lines = JSON.parse('{{ lines|escapejs }}');
-            console.log(lines);
-            const lineSelect = document.getElementById('id_line');
-            const stationSelect = document.getElementById('id_station');
+        $(document).ready(function() {
+        $("#friend_form").submit(function(event) {
+            // Prevent the default form submission
+            event.preventDefault();
 
-            function updateStations() {
-                const selectedLine = lineSelect.value;
-                stationSelect.innerHTML = '';
-                if (lines[selectedLine]) {
-                    for (const station of lines[selectedLine]) {
-                        const option = document.createElement('option');
-                        option.value = station;
-                        option.text = station;
-                        stationSelect.add(option);
+            // Disable the button to prevent multiple submissions
+            $("#estimativa-html-btn").prop("disabled", true);
+            $("#submit_button").prop("disabled", true);
+
+            // Serialize form data
+            var formData = $(this).serialize();
+
+            // Send AJAX request
+            $.ajax({
+                type: "POST",
+                url: $(this).attr('action'),
+                data: formData,
+                success: function(response) {
+                    // Display the response
+                    if (response.error) {
+                        $("#estimation_result").html('<p>Error: ' + response.error + '</p>');
+                    } else {
+                        $("#estimation_result").html(
+                            '<h2>Estimated Time</h2>' +
+                            '<table>' +
+                            '<tr><td>Line:</td><td>' + response.line + '</td></tr>' +
+                            '<tr><td>Start Station:</td><td>' + response.start_station + '</td></tr>' +
+                            '<tr><td>End Station:</td><td>' + response.end_station + '</td></tr>' +
+                            '<tr><td>Estimated Time:</td><td>' + response.time + ' minutes</td></tr>' +
+                            '</table>'
+                        );
                     }
+                },
+                error: function(xhr, status, error) {
+                    // Handle errors
+                    console.error(error);
+                },
+                complete: function() {
+                    // Enable the button after request completes
+                    $("#estimativa-html-btn").prop("disabled", false);
+                    $("#submit_button").prop("disabled", false);
+                }
+            });
+        });
+    });
+        
+        const lines = {{ lines|safe }};
+        function updateStations() {
+            const lineSelect = document.getElementById('line');
+            const startStationSelect = document.getElementById('start_station');
+            const endStationSelect = document.getElementById('end_station');
+            const selectedLine = lineSelect.value;
+
+            // Clear existing options
+            startStationSelect.innerHTML = '';
+            endStationSelect.innerHTML = '';
+
+            // Populate start and end stations based on selected line
+            if (selectedLine) {
+                for (const station in lines[selectedLine]) {
+                    const option = document.createElement('option');
+                    option.value = station;
+                    option.text = station;
+                    startStationSelect.add(option.cloneNode(true));
+                    endStationSelect.add(option);
                 }
             }
-
-            lineSelect.addEventListener('change', updateStations);
-            updateStations(); // Call once to populate the stations on page load
-        });
+        }
     </script>
 </head>
 <body>
-    <h1>Selecione a Linha e sua estação</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <br><br>
-        <button type="submit">Obter Estimativa</button>
-    </form>
-
-    {% if line and station and time %}
-    <h2>Tempo </h2>
-    <p>Linha: {{ line }}</p>
-    <p>Estação: {{ station }}</p>
-    <p>Tempo Estimado: {{ time }} minutos</p>
-    {% endif %}
+    <div class="estimativa">
+        <form method="post" action="{% url 'estimativa_html' %}" id="friend_form">
+            {% csrf_token %}
+            <div class="line-combo">
+                <label for="line">Linha:</label>
+                <select class="custom-select line" id="line" name="line" onchange="updateStations()">
+                    <option value="">Selecione uma linha</option>
+                    {% for line in lines %}
+                        <option value="{{ line }}">{{ line }}</option>
+                    {% endfor %}
+                </select>
+            </div>    
+            <br><br>
+            <div class="start-station-combo">
+                <label for="start_station">Estação Inicial:</label>
+                <select class="custom-select start-station" id="start_station" name="start_station">
+                </select>
+            </div>
+            <br><br>
+            <div class="end-station-combo">
+                <label for="end_station">Estação Final:</label>
+                <select  class="custom-select end-station" id="end_station" name="end_station">
+                </select>
+            </div>
+            <br><br>
+            <button id="submit_button" type="submit">Get Estimation</button>   
+         </form>
+    
+        <!-- Placeholder for the estimation result -->
+        <div id="estimation_result"></div>
+    </div>
+    
 </body>
 </html>
